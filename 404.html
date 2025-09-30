@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面不存在 - 个人周刊</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#64748B',
+                        accent: '#10B981',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .error-number {
+                font-size: clamp(8rem, 25vw, 16rem);
+                line-height: 1;
+                letter-spacing: -0.05em;
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+                100% { transform: translateY(0px); }
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <header class="header fixed w-full top-0 z-50 bg-white/90 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- 品牌标识 -->
+                <a href="index.html" class="flex items-center gap-2">
+                    <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                    <span class="text-xl font-bold">个人周刊</span>
+                </a>
+                
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                    <a href="contact.html" class="nav-link">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-btn" class="md:hidden text-2xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 py-4 border-t">
+                <nav class="flex flex-col space-y-4">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                    <a href="contact.html" class="nav-link">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="flex-grow container mx-auto px-4 pt-32 pb-16 flex flex-col items-center justify-center text-center">
+        <!-- 404 错误信息 -->
+        <div class="max-w-4xl mx-auto">
+            <!-- 错误数字 -->
+            <div class="relative mb-8">
+                <div class="error-number font-bold text-primary/10 absolute inset-0 animate-float">404</div>
+                <div class="error-number font-bold text-primary">404</div>
+            </div>
+            
+            <!-- 错误标题和描述 -->
+            <h1 class="text-3xl md:text-4xl font-bold mb-6">页面不存在</h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                抱歉，您访问的页面不存在或已被删除。可能是链接错误或页面已更新。
+            </p>
+            
+            <!-- 错误原因 -->
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-10">
+                <h2 class="text-lg font-bold mb-4">可能的原因</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
+                            <i class="fa fa-times text-red-500 text-xs"></i>
+                        </div>
+                        <p class="text-gray-700">输入的网址不正确</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
+                            <i class="fa fa-times text-red-500 text-xs"></i>
+                        </div>
+                        <p class="text-gray-700">页面已被移动或删除</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
+                            <i class="fa fa-times text-red-500 text-xs"></i>
+                        </div>
+                        <p class="text-gray-700">链接已过期</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
+                            <i class="fa fa-times text-red-500 text-xs"></i>
+                        </div>
+                        <p class="text-gray-700">服务器暂时不可用</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 推荐操作 -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                <a href="index.html" class="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <i class="fa fa-home"></i>
+                    <span>返回首页</span>
+                </a>
+                <a href="categories.html" class="bg-white hover:bg-gray-50 text-dark border border-gray-300 font-medium px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <i class="fa fa-th-large"></i>
+                    <span>浏览分类</span>
+                </a>
+                <a href="contact.html" class="bg-white hover:bg-gray-50 text-dark border border-gray-300 font-medium px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <i class="fa fa-envelope"></i>
+                    <span>联系我们</span>
+                </a>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="max-w-md mx-auto">
+                <h3 class="text-lg font-bold mb-4">搜索内容</h3>
+                <form id="search-form" class="flex">
+                    <input type="text" placeholder="搜索文章、标签或分类..." 
+                        class="flex-grow px-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                    <button type="submit" class="bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-r-lg transition-all">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- 热门文章推荐 -->
+        <div class="w-full max-w-4xl mx-auto mt-16">
+            <h3 class="text-xl font-bold mb-6 text-left">热门文章</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 热门文章 1 -->
+                <a href="article.html?id=1" class="article-card bg-white rounded-xl shadow-sm overflow-hidden transition-all hover:shadow-md">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="https://picsum.photos/600/400?random=1" alt="文章图片" class="w-full h-full object-cover transition-transform hover:scale-105">
+                    </div>
+                    <div class="p-4">
+                        <span class="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">技术趋势</span>
+                        <h4 class="font-bold mt-2 mb-2 line-clamp-2">2023年前端技术发展趋势与展望</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2 mb-3">
+                            本文分析了2023年前端技术的发展趋势，包括框架更新、工具链优化、性能提升等方面的变化...
+                        </p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <span>2023-01-15</span>
+                            <span><i class="fa fa-eye mr-1"></i> 1.2k</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- 热门文章 2 -->
+                <a href="article.html?id=2" class="article-card bg-white rounded-xl shadow-sm overflow-hidden transition-all hover:shadow-md">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="https://picsum.photos/600/400?random=2" alt="文章图片" class="w-full h-full object-cover transition-transform hover:scale-105">
+                    </div>
+                    <div class="p-4">
+                        <span class="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">学习方法</span>
+                        <h4 class="font-bold mt-2 mb-2 line-clamp-2">如何高效学习新技术：我的个人经验分享</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2 mb-3">
+                            在技术快速迭代的时代，掌握高效的学习方法至关重要。本文分享了我在学习新技术过程中的经验和技巧...
+                        </p>
+                        <div class="flex justify-between items-center text-sm text-gray-500">
+                            <span>2023-02-20</span>
+                            <span><i class="fa fa-eye mr-1"></i> 986</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 订阅区域 -->
+    <section class="bg-gray-50 py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-2xl font-bold mb-4">订阅我的周刊</h2>
+                <p class="text-gray-600 mb-6">
+                    获取最新的技术动态和学习资源，每周发送到您的邮箱
+                </p>
+                <form id="subscribe-form" class="flex flex-col sm:flex-row gap-3">
+                    <input type="email" placeholder="请输入您的邮箱" class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                    <button type="submit" class="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-3 rounded-lg transition-all whitespace-nowrap">
+                        立即订阅
+                    </button>
+                </form>
+                <p class="text-xs text-gray-500 mt-4">
+                    我们尊重您的隐私，不会向第三方分享您的信息
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <a href="index.html" class="flex items-center gap-2 mb-4">
+                        <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                        <span class="text-xl font-bold">个人周刊</span>
+                    </a>
+                    <p class="text-gray-400 mb-4">
+                        记录技术思考，分享学习历程
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="categories.html" class="text-gray-400 hover:text-white transition-colors">分类</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">关于</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">联系我</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">分类</h3>
+                    <ul class="space-y-2">
+                        <li><a href="categories.html?category=技术趋势" class="text-gray-400 hover:text-white transition-colors">技术趋势</a></li>
+                        <li><a href="categories.html?category=学习方法" class="text-gray-400 hover:text-white transition-colors">学习方法</a></li>
+                        <li><a href="categories.html?category=前端开发" class="text-gray-400 hover:text-white transition-colors">前端开发</a></li>
+                        <li><a href="categories.html?category=性能优化" class="text-gray-400 hover:text-white transition-colors">性能优化</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">联系我</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-envelope"></i>
+                            <a href="mailto:example@email.com" class="hover:text-white transition-colors">example@email.com</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-map-marker"></i>
+                            <span>中国，北京</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>&copy; 2023 个人周刊. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module">
+        import { initCommon, setupFormSubmission } from './js/utils.js';
+        
+        // 初始化公共功能
+        initCommon();
+        setupFormSubmission('subscribe-form', '订阅成功！感谢您的关注。');
+        setupFormSubmission('search-form', '搜索功能正在开发中...');
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 为了提升用户体验，可以添加一些额外的动画效果
+            const errorNumber = document.querySelector('.error-number');
+            if (errorNumber) {
+                // 添加一个简单的动画效果
+                errorNumber.classList.add('opacity-0');
+                setTimeout(() => {
+                    errorNumber.classList.remove('opacity-0');
+                    errorNumber.classList.add('transition-opacity', 'duration-1000', 'opacity-100');
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>

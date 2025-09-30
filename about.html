@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 - 个人周刊</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#64748B',
+                        accent: '#10B981',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .timeline-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 24px;
+                bottom: 0;
+                width: 2px;
+                background-color: #E2E8F0;
+            }
+            .timeline-item:last-child::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark min-h-screen">
+    <!-- 导航栏 -->
+    <header class="header fixed w-full top-0 z-50 bg-white/90 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- 品牌标识 -->
+                <a href="index.html" class="flex items-center gap-2">
+                    <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                    <span class="text-xl font-bold">个人周刊</span>
+                </a>
+                
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link active">关于</a>
+                    <a href="contact.html" class="nav-link">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-btn" class="md:hidden text-2xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 py-4 border-t">
+                <nav class="flex flex-col space-y-4">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link active">关于</a>
+                    <a href="contact.html" class="nav-link">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 pt-32 pb-16">
+        <!-- 关于我区域 -->
+        <section class="mb-16">
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                    <!-- 头像 -->
+                    <div class="md:col-span-1">
+                        <div class="relative w-48 h-48 mx-auto">
+                            <img src="https://picsum.photos/300/300?random=10" alt="作者头像" class="w-full h-full object-cover rounded-full border-4 border-primary/10">
+                            <div class="absolute -bottom-2 -right-2 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
+                                <i class="fa fa-code"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 个人介绍 -->
+                    <div class="md:col-span-4">
+                        <h1 class="text-3xl font-bold mb-4">你好，我是<span class="text-primary">作者名称</span></h1>
+                        <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+                            一名热爱技术的前端开发者，拥有多年Web开发经验。我热衷于分享技术知识和学习心得，希望通过这个周刊记录我的技术成长历程，同时也能帮助更多的开发者。
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex items-center gap-2">
+                                <i class="fa fa-envelope text-primary"></i>
+                                <a href="mailto:example@email.com" class="text-gray-700 hover:text-primary transition-colors">example@email.com</a>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa fa-map-marker text-primary"></i>
+                                <span class="text-gray-700">中国，北京</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa fa-calendar text-primary"></i>
+                                <span class="text-gray-700">开始写于 2023年</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 社交媒体链接 -->
+                        <div class="mt-6 flex gap-4">
+                            <a href="#" class="bg-gray-100 hover:bg-primary hover:text-white text-gray-700 w-10 h-10 rounded-full flex items-center justify-center transition-all">
+                                <i class="fa fa-github"></i>
+                            </a>
+                            <a href="#" class="bg-gray-100 hover:bg-primary hover:text-white text-gray-700 w-10 h-10 rounded-full flex items-center justify-center transition-all">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a href="#" class="bg-gray-100 hover:bg-primary hover:text-white text-gray-700 w-10 h-10 rounded-full flex items-center justify-center transition-all">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="bg-gray-100 hover:bg-primary hover:text-white text-gray-700 w-10 h-10 rounded-full flex items-center justify-center transition-all">
+                                <i class="fa fa-weixin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 关于这个网站 -->
+        <section class="mb-16">
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                <h2 class="text-2xl font-bold mb-6">关于这个网站</h2>
+                <div class="prose max-w-none">
+                    <p class="text-gray-700 mb-4">
+                        欢迎来到我的个人技术周刊网站！这里是我记录技术思考、分享学习心得的地方。我希望通过这个平台，能够：
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>分享我对技术趋势的观察和见解</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>记录学习新技术的过程和心得</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>总结开发中遇到的问题和解决方案</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa fa-check-circle text-primary mt-1"></i>
+                            <span>与其他开发者交流技术，共同成长</span>
+                        </li>
+                    </ul>
+                    <p class="text-gray-700">
+                        这个网站使用了现代Web技术构建，包括HTML5、CSS3、JavaScript、Tailwind CSS等。如果你对网站的技术实现有兴趣，欢迎查看我的GitHub仓库。
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 技能和专长 -->
+        <section class="mb-16">
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                <h2 class="text-2xl font-bold mb-6">技能和专长</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- 前端技能 -->
+                    <div>
+                        <h3 class="text-lg font-bold mb-4">前端开发</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-700 font-medium">HTML5 & CSS3</span>
+                                    <span class="text-gray-500">95%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-700 font-medium">JavaScript</span>
+                                    <span class="text-gray-500">90%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-700 font-medium">React / Vue</span>
+                                    <span class="text-gray-500">85%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-700 font-medium">TypeScript</span>
+                                    <span class="text-gray-500">80%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 其他技能 -->
+                    <div>
+                        <h3 class="text-lg font-bold mb-4">其他技能</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-700 font-medium">Node.js</span>
+                                    <span class="text-gray-500">75%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-700 font-medium">UI/UX设计</span>
+                                    <span class="text-gray-500">70%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 70%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-700 font-medium">响应式设计</span>
+                                    <span class="text-gray-500">90%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-700 font-medium">性能优化</span>
+                                    <span class="text-gray-500">85%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 时间线 -->
+        <section>
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                <h2 class="text-2xl font-bold mb-6">我的技术成长历程</h2>
+                <div class="space-y-8">
+                    <!-- 时间线项 1 -->
+                    <div class="timeline-item relative pl-12">
+                        <div class="absolute left-0 top-1 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <i class="fa fa-graduation-cap text-primary"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm text-primary font-medium">2016 - 2020</span>
+                            <h3 class="text-xl font-bold mt-1 mb-2">大学学习</h3>
+                            <p class="text-gray-700">
+                                计算机科学与技术专业，学习编程基础、数据结构、算法等核心课程，开始接触Web前端开发。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 时间线项 2 -->
+                    <div class="timeline-item relative pl-12">
+                        <div class="absolute left-0 top-1 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <i class="fa fa-briefcase text-primary"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm text-primary font-medium">2020 - 2022</span>
+                            <h3 class="text-xl font-bold mt-1 mb-2">前端开发工程师</h3>
+                            <p class="text-gray-700">
+                                在一家互联网公司担任前端开发工程师，主要负责公司产品的Web前端开发，使用React技术栈，参与了多个重要项目的开发。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 时间线项 3 -->
+                    <div class="timeline-item relative pl-12">
+                        <div class="absolute left-0 top-1 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <i class="fa fa-rocket text-primary"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm text-primary font-medium">2022 - 2023</span>
+                            <h3 class="text-xl font-bold mt-1 mb-2">高级前端开发工程师</h3>
+                            <p class="text-gray-700">
+                                晋升为高级前端开发工程师，负责前端架构设计和技术选型，指导团队成员，提升团队技术水平，优化项目性能。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 时间线项 4 -->
+                    <div class="timeline-item relative pl-12">
+                        <div class="absolute left-0 top-1 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            <i class="fa fa-newspaper-o text-primary"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm text-primary font-medium">2023 - 至今</span>
+                            <h3 class="text-xl font-bold mt-1 mb-2">创建个人周刊</h3>
+                            <p class="text-gray-700">
+                                创建了这个个人技术周刊网站，记录自己的技术成长历程，分享学习心得和技术见解，希望能够帮助更多的开发者。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 订阅区域 -->
+    <section class="bg-gray-50 py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-2xl font-bold mb-4">订阅我的周刊</h2>
+                <p class="text-gray-600 mb-6">
+                    获取最新的技术动态和学习资源，每周发送到您的邮箱
+                </p>
+                <form id="subscribe-form" class="flex flex-col sm:flex-row gap-3">
+                    <input type="email" placeholder="请输入您的邮箱" class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                    <button type="submit" class="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-3 rounded-lg transition-all whitespace-nowrap">
+                        立即订阅
+                    </button>
+                </form>
+                <p class="text-xs text-gray-500 mt-4">
+                    我们尊重您的隐私，不会向第三方分享您的信息
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <a href="index.html" class="flex items-center gap-2 mb-4">
+                        <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                        <span class="text-xl font-bold">个人周刊</span>
+                    </a>
+                    <p class="text-gray-400 mb-4">
+                        记录技术思考，分享学习历程
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="categories.html" class="text-gray-400 hover:text-white transition-colors">分类</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">关于</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">联系我</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">分类</h3>
+                    <ul class="space-y-2">
+                        <li><a href="categories.html?category=技术趋势" class="text-gray-400 hover:text-white transition-colors">技术趋势</a></li>
+                        <li><a href="categories.html?category=学习方法" class="text-gray-400 hover:text-white transition-colors">学习方法</a></li>
+                        <li><a href="categories.html?category=前端开发" class="text-gray-400 hover:text-white transition-colors">前端开发</a></li>
+                        <li><a href="categories.html?category=性能优化" class="text-gray-400 hover:text-white transition-colors">性能优化</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">联系我</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-envelope"></i>
+                            <a href="mailto:example@email.com" class="hover:text-white transition-colors">example@email.com</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-map-marker"></i>
+                            <span>中国，北京</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>&copy; 2023 个人周刊. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module">
+        import { initCommon, setupFormSubmission } from './js/utils.js';
+        
+        // 初始化公共功能
+        initCommon();
+        setupFormSubmission('subscribe-form', '订阅成功！感谢您的关注。');
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 这里可以添加页面特定的JavaScript逻辑
+        });
+    </script>
+</body>
+</html>

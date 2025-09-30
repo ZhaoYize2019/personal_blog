@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章编辑器 - 个人周刊</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#64748B',
+                        accent: '#10B981',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .editor-toolbar-btn {
+                @apply p-2 text-gray-600 hover:text-primary hover:bg-gray-100 rounded transition-colors;
+            }
+            .editor-toolbar-btn-active {
+                @apply text-primary bg-gray-100;
+            }
+            .editor-toolbar-divider {
+                @apply w-px h-6 bg-gray-300 mx-1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark min-h-screen">
+    <!-- 导航栏 -->
+    <header class="header fixed w-full top-0 z-50 bg-white/90 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- 品牌标识 -->
+                <a href="index.html" class="flex items-center gap-2">
+                    <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                    <span class="text-xl font-bold">个人周刊</span>
+                </a>
+                
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                    <a href="contact.html" class="nav-link">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-btn" class="md:hidden text-2xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 py-4 border-t">
+                <nav class="flex flex-col space-y-4">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                    <a href="contact.html" class="nav-link">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 编辑器主区域 -->
+    <main class="container mx-auto px-4 pt-32 pb-16">
+        <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+            <!-- 编辑器标题 -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                <h1 class="text-2xl font-bold">文章编辑器</h1>
+                <div class="flex gap-3">
+                    <button id="preview-btn" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-eye"></span>
+                        <span>预览</span>
+                    </button>
+                    <button id="save-draft-btn" class="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-save"></span>
+                        <span>保存草稿</span>
+                    </button>
+                    <button id="publish-btn" class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-paper-plane"></span>
+                        <span>发布文章</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 文章表单 -->
+            <form id="article-form">
+                <!-- 文章标题 -->
+                <div class="mb-6">
+                    <label for="article-title" class="block text-gray-700 font-medium mb-2">文章标题</label>
+                    <input type="text" id="article-title" name="title" placeholder="请输入文章标题..." class="w-full px-4 py-3 text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                </div>
+                
+                <!-- 文章元信息 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div>
+                        <label for="article-category" class="block text-gray-700 font-medium mb-2">文章分类</label>
+                        <select id="article-category" name="category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                            <option value="">请选择分类</option>
+                            <option value="技术趋势">技术趋势</option>
+                            <option value="学习方法">学习方法</option>
+                            <option value="前端开发">前端开发</option>
+                            <option value="性能优化">性能优化</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="article-tags" class="block text-gray-700 font-medium mb-2">文章标签</label>
+                        <input type="text" id="article-tags" name="tags" placeholder="请输入标签，用逗号分隔" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                    </div>
+                    <div>
+                        <label for="article-image" class="block text-gray-700 font-medium mb-2">特色图片</label>
+                        <div class="relative">
+                            <input type="text" id="article-image" name="image" placeholder="输入图片URL或点击上传" class="w-full pr-20 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                            <button type="button" id="upload-image-btn" class="absolute right-1 top-1/2 transform -translate-y-1/2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-lg transition-all text-sm">
+                                上传
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 编辑器工具栏 -->
+                <div class="flex flex-wrap items-center gap-1 p-2 bg-gray-50 rounded-t-lg border border-b-0 border-gray-300">
+                    <button type="button" class="editor-toolbar-btn" data-command="h1" title="一级标题">
+                        <i class="fa fa-header"></i>
+                    </button>
+                    <button type="button" class="editor-toolbar-btn" data-command="h2" title="二级标题">
+                        <i class="fa fa-header"></i>
+                        <span class="text-xs">2</span>
+                    </button>
+                    <button type="button" class="editor-toolbar-btn" data-command="h3" title="三级标题">
+                        <i class="fa fa-header"></i>
+                        <span class="text-xs">3</span>
+                    </button>
+                    
+                    <div class="editor-toolbar-divider"></div>
+                    
+                    <button type="button" class="editor-toolbar-btn" data-command="bold" title="加粗">
+                        <i class="fa fa-bold"></i>
+                    </button>
+                    <button type="button" class="editor-toolbar-btn" data-command="italic" title="斜体">
+                        <i class="fa fa-italic"></i>
+                    </button>
+                    <button type="button" class="editor-toolbar-btn" data-command="strikethrough" title="删除线">
+                        <i class="fa fa-strikethrough"></i>
+                    </button>
+                    
+                    <div class="editor-toolbar-divider"></div>
+                    
+                    <button type="button" class="editor-toolbar-btn" data-command="link" title="链接">
+                        <i class="fa fa-link"></i>
+                    </button>
+                    <button type="button" class="editor-toolbar-btn" data-command="image" title="图片">
+                        <i class="fa fa-image"></i>
+                    </button>
+                    
+                    <div class="editor-toolbar-divider"></div>
+                    
+                    <button type="button" class="editor-toolbar-btn" data-command="ul" title="无序列表">
+                        <i class="fa fa-list-ul"></i>
+                    </button>
+                    <button type="button" class="editor-toolbar-btn" data-command="ol" title="有序列表">
+                        <i class="fa fa-list-ol"></i>
+                    </button>
+                    <button type="button" class="editor-toolbar-btn" data-command="blockquote" title="引用">
+                        <i class="fa fa-quote-right"></i>
+                    </button>
+                    
+                    <div class="editor-toolbar-divider"></div>
+                    
+                    <button type="button" class="editor-toolbar-btn" data-command="code" title="代码块">
+                        <i class="fa fa-code"></i>
+                    </button>
+                    <button type="button" class="editor-toolbar-btn" data-command="inline-code" title="行内代码">
+                        <code>{ }</code>
+                    </button>
+                </div>
+                
+                <!-- 编辑器主体 -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 relative">
+                    <!-- 编辑区域 -->
+                    <div class="editor-container border border-gray-300 border-t-0 rounded-b-l-lg lg:rounded-b-r-none lg:rounded-b-l-lg">
+                        <textarea id="article-content" name="content" rows="20" placeholder="请输入文章内容...\n\n支持Markdown语法，例如：\n# 标题\n**粗体**\n*斜体*\n[链接文字](链接地址)\n- 无序列表\n1. 有序列表\n> 引用\n```代码块```\n`行内代码`\n![图片描述](图片URL)" class="w-full h-full min-h-[500px] p-4 font-mono text-sm focus:outline-none resize-none"></textarea>
+                    </div>
+                    
+                    <!-- 预览区域 -->
+                    <div id="preview-container" class="hidden lg:block p-4 bg-gray-50 border border-gray-300 border-t-0 border-l-0 rounded-b-r-lg overflow-y-auto min-h-[500px]">
+                        <h2 class="text-lg font-bold mb-4 pb-2 border-b border-gray-200">预览</h2>
+                        <div id="preview-content" class="article-content">
+                            <!-- 预览内容将由JavaScript动态生成 -->
+                            <div class="text-gray-500 text-center py-10">
+                                <i class="fa fa-align-left text-3xl mb-2 block"></i>
+                                <p>输入内容后将在此处显示预览效果</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 文章摘要 -->
+                <div class="mt-6">
+                    <label for="article-excerpt" class="block text-gray-700 font-medium mb-2">文章摘要</label>
+                    <textarea id="article-excerpt" name="excerpt" rows="3" placeholder="请输入文章摘要..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"></textarea>
+                </div>
+                
+                <!-- 发布选项 -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="text-lg font-bold mb-4">发布选项</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="article-status" class="block text-gray-700 font-medium mb-2">发布状态</label>
+                            <select id="article-status" name="status" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                                <option value="draft">草稿</option>
+                                <option value="published">已发布</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="publish-date" class="block text-gray-700 font-medium mb-2">发布日期</label>
+                            <input type="date" id="publish-date" name="publishDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- 移动端预览按钮 -->
+            <div class="mt-8 lg:hidden">
+                <button id="mobile-preview-btn" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <span class="fa fa-eye"></span>
+                    <span>预览文章</span>
+                </button>
+            </div>
+            
+            <!-- 移动端预览模态框 -->
+            <div id="mobile-preview-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden">
+                <div class="bg-white rounded-xl shadow-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+                    <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="text-lg font-bold">预览</h3>
+                        <button id="close-preview-btn" class="text-gray-500 hover:text-gray-700">
+                            <i class="fa fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="p-6" id="mobile-preview-content">
+                        <!-- 移动端预览内容将由JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <a href="index.html" class="flex items-center gap-2 mb-4">
+                        <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                        <span class="text-xl font-bold">个人周刊</span>
+                    </a>
+                    <p class="text-gray-400 mb-4">
+                        记录技术思考，分享学习历程
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="categories.html" class="text-gray-400 hover:text-white transition-colors">分类</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">关于</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">联系我</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">分类</h3>
+                    <ul class="space-y-2">
+                        <li><a href="categories.html?category=技术趋势" class="text-gray-400 hover:text-white transition-colors">技术趋势</a></li>
+                        <li><a href="categories.html?category=学习方法" class="text-gray-400 hover:text-white transition-colors">学习方法</a></li>
+                        <li><a href="categories.html?category=前端开发" class="text-gray-400 hover:text-white transition-colors">前端开发</a></li>
+                        <li><a href="categories.html?category=性能优化" class="text-gray-400 hover:text-white transition-colors">性能优化</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">联系我</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-envelope"></i>
+                            <a href="mailto:example@email.com" class="hover:text-white transition-colors">example@email.com</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-map-marker"></i>
+                            <span>中国，北京</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>&copy; 2023 个人周刊. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module">
+        import { initCommon, setupFormSubmission } from './js/utils.js';
+        import { simpleMarkdownParser } from './js/markdown-editor.js';
+        
+        // 初始化公共功能
+        initCommon();
+        
+        // 获取DOM元素
+        const contentTextarea = document.getElementById('article-content');
+        const previewContent = document.getElementById('preview-content');
+        const mobilePreviewContent = document.getElementById('mobile-preview-content');
+        const previewBtn = document.getElementById('preview-btn');
+        const mobilePreviewBtn = document.getElementById('mobile-preview-btn');
+        const mobilePreviewModal = document.getElementById('mobile-preview-modal');
+        const closePreviewBtn = document.getElementById('close-preview-btn');
+        const publishBtn = document.getElementById('publish-btn');
+        const saveDraftBtn = document.getElementById('save-draft-btn');
+        const uploadImageBtn = document.getElementById('upload-image-btn');
+        const articleImageInput = document.getElementById('article-image');
+        const editorToolbarBtns = document.querySelectorAll('.editor-toolbar-btn');
+        
+        // 自动保存功能
+        let autoSaveTimer = null;
+        
+        function startAutoSaveTimer() {
+            // 清除现有定时器
+            if (autoSaveTimer) {
+                clearTimeout(autoSaveTimer);
+            }
+            
+            // 设置新定时器，3秒后执行自动保存
+            autoSaveTimer = setTimeout(() => {
+                // 在实际应用中，这里会调用保存API
+                console.log('自动保存草稿...');
+            }, 3000);
+        }
+        
+        // 实时预览功能
+        function updatePreview() {
+            if (contentTextarea && previewContent && mobilePreviewContent) {
+                const markdownContent = contentTextarea.value;
+                const htmlContent = simpleMarkdownParser(markdownContent);
+                
+                previewContent.innerHTML = markdownContent ? htmlContent : `
+                    <div class="text-gray-500 text-center py-10">
+                        <i class="fa fa-align-left text-3xl mb-2 block"></i>
+                        <p>输入内容后将在此处显示预览效果</p>
+                    </div>
+                `;
+                
+                mobilePreviewContent.innerHTML = previewContent.innerHTML;
+            }
+        }
+        
+        // 切换移动端预览模态框
+        function toggleMobilePreview() {
+            if (mobilePreviewModal) {
+                mobilePreviewModal.classList.toggle('hidden');
+                if (!mobilePreviewModal.classList.contains('hidden')) {
+                    updatePreview();
+                }
+            }
+        }
+        
+        // 应用编辑器命令
+        function applyEditorCommand(command) {
+            if (!contentTextarea) return;
+            
+            const startPos = contentTextarea.selectionStart;
+            const endPos = contentTextarea.selectionEnd;
+            const selectedText = contentTextarea.value.substring(startPos, endPos);
+            
+            let newText = '';
+            
+            switch (command) {
+                case 'h1':
+                    newText = `# ${selectedText || '一级标题'}`;
+                    break;
+                case 'h2':
+                    newText = `## ${selectedText || '二级标题'}`;
+                    break;
+                case 'h3':
+                    newText = `### ${selectedText || '三级标题'}`;
+                    break;
+                case 'bold':
+                    newText = `**${selectedText || '粗体文本'}**`;
+                    break;
+                case 'italic':
+                    newText = `*${selectedText || '斜体文本'}*`;
+                    break;
+                case 'strikethrough':
+                    newText = `~~${selectedText || '删除线文本'}~~`;
+                    break;
+                case 'link':
+                    const url = selectedText.match(/^https?:\/\//) ? selectedText : 'https://';
+                    newText = `[${selectedText || '链接文字'}](${url})`;
+                    break;
+                case 'image':
+                    const imgUrl = selectedText.match(/^https?:\/\//) ? selectedText : 'https://';
+                    newText = `![${selectedText || '图片描述'}](${imgUrl})`;
+                    break;
+                case 'ul':
+                    const ulLines = selectedText.split('\n');
+                    newText = ulLines.map(line => `- ${line || '列表项'}`).join('\n');
+                    break;
+                case 'ol':
+                    const olLines = selectedText.split('\n');
+                    newText = olLines.map((line, index) => `${index + 1}. ${line || '列表项'}`).join('\n');
+                    break;
+                case 'blockquote':
+                    const quoteLines = selectedText.split('\n');
+                    newText = quoteLines.map(line => `> ${line || '引用内容'}`).join('\n');
+                    break;
+                case 'code':
+                    newText = `\`\`\`\n${selectedText || '代码内容'}\n\`\`\``;
+                    break;
+                case 'inline-code':
+                    newText = `\`${selectedText || '代码'}\``;
+                    break;
+            }
+            
+            // 替换选中的文本
+            const newValue = contentTextarea.value.substring(0, startPos) + newText + contentTextarea.value.substring(endPos);
+            contentTextarea.value = newValue;
+            
+            // 设置光标位置
+            const cursorPos = startPos + newText.length;
+            contentTextarea.focus();
+            contentTextarea.selectionStart = cursorPos;
+            contentTextarea.selectionEnd = cursorPos;
+            
+            // 更新预览
+            updatePreview();
+            startAutoSaveTimer();
+        }
+        
+        // 模拟图片上传
+        function handleImageUpload() {
+            // 在实际应用中，这里会打开文件选择器并上传图片
+            // 这里使用示例图片URL
+            const randomImageId = Math.floor(Math.random() * 100);
+            articleImageInput.value = `https://picsum.photos/800/400?random=${randomImageId}`;
+            
+            // 提示用户
+            alert('图片上传成功！（实际应用中，这里会处理图片上传逻辑）');
+        }
+        
+        // 处理文章发布
+        function handlePublish() {
+            // 获取表单数据
+            const title = document.getElementById('article-title').value.trim();
+            const category = document.getElementById('article-category').value;
+            const tags = document.getElementById('article-tags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+            const image = document.getElementById('article-image').value.trim();
+            const content = document.getElementById('article-content').value.trim();
+            const excerpt = document.getElementById('article-excerpt').value.trim();
+            const status = document.getElementById('article-status').value;
+            const publishDate = document.getElementById('publish-date').value;
+            
+            // 表单验证
+            if (!title) {
+                alert('请输入文章标题');
+                return;
+            }
+            
+            if (!category) {
+                alert('请选择文章分类');
+                return;
+            }
+            
+            if (!content) {
+                alert('请输入文章内容');
+                return;
+            }
+            
+            // 在实际应用中，这里会调用API发布文章
+            const articleData = {
+                title,
+                category,
+                tags,
+                image,
+                content,
+                excerpt,
+                status,
+                publishDate: publishDate || new Date().toISOString().split('T')[0]
+            };
+            
+            console.log('发布文章数据:', articleData);
+            
+            // 显示成功消息并跳转到首页
+            alert(status === 'published' ? '文章发布成功！' : '文章已保存为草稿！');
+            
+            // 跳转到首页
+            if (status === 'published') {
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // 处理保存草稿
+        function handleSaveDraft() {
+            // 在实际应用中，这里会调用API保存草稿
+            alert('文章已保存为草稿！');
+        }
+        
+        // 绑定事件监听器
+        function bindEventListeners() {
+            // 内容变化时更新预览和触发自动保存
+            if (contentTextarea) {
+                contentTextarea.addEventListener('input', () => {
+                    updatePreview();
+                    startAutoSaveTimer();
+                });
+            }
+            
+            // 预览按钮点击事件
+            if (previewBtn) {
+                previewBtn.addEventListener('click', () => {
+                    // 在实际应用中，这里可能会切换编辑器和预览的布局
+                    updatePreview();
+                });
+            }
+            
+            // 移动端预览按钮点击事件
+            if (mobilePreviewBtn) {
+                mobilePreviewBtn.addEventListener('click', toggleMobilePreview);
+            }
+            
+            // 关闭移动端预览
+            if (closePreviewBtn) {
+                closePreviewBtn.addEventListener('click', toggleMobilePreview);
+            }
+            
+            // 点击模态框背景关闭预览
+            if (mobilePreviewModal) {
+                mobilePreviewModal.addEventListener('click', (e) => {
+                    if (e.target === mobilePreviewModal) {
+                        toggleMobilePreview();
+                    }
+                });
+            }
+            
+            // 发布按钮点击事件
+            if (publishBtn) {
+                publishBtn.addEventListener('click', handlePublish);
+            }
+            
+            // 保存草稿按钮点击事件
+            if (saveDraftBtn) {
+                saveDraftBtn.addEventListener('click', handleSaveDraft);
+            }
+            
+            // 上传图片按钮点击事件
+            if (uploadImageBtn) {
+                uploadImageBtn.addEventListener('click', handleImageUpload);
+            }
+            
+            // 编辑器工具栏按钮点击事件
+            editorToolbarBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const command = btn.getAttribute('data-command');
+                    if (command) {
+                        applyEditorCommand(command);
+                    }
+                });
+            });
+        }
+        
+        // 页面加载完成后初始化编辑器
+        document.addEventListener('DOMContentLoaded', () => {
+            bindEventListeners();
+            
+            // 设置当前日期为默认发布日期
+            const today = new Date().toISOString().split('T')[0];
+            if (document.getElementById('publish-date')) {
+                document.getElementById('publish-date').value = today;
+            }
+            
+            // 如果是编辑现有文章，这里会加载文章数据
+            // 检查URL是否包含文章ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('id');
+            
+            if (articleId) {
+                // 在实际应用中，这里会根据文章ID获取文章数据并填充表单
+                // 示例：如果是编辑第一篇文章，填充一些示例数据
+                if (articleId === '1') {
+                    document.getElementById('article-title').value = '我的第一周周刊：技术趋势观察';
+                    document.getElementById('article-category').value = '技术趋势';
+                    document.getElementById('article-tags').value = '技术趋势, AI';
+                    document.getElementById('article-image').value = 'https://picsum.photos/800/400?random=1';
+                    document.getElementById('article-excerpt').value = '记录本周我对技术趋势的观察和思考，包括AI技术的最新进展、前端开发的趋势等。';
+                    
+                    contentTextarea.value = `# 我的第一周周刊：技术趋势观察
+
+## 前言
+
+欢迎阅读我的第一期技术周刊！在这里我将定期分享我对技术趋势的观察和思考。
+
+## AI技术的最新进展
+
+最近，AI技术发展迅速，特别是在以下几个方面：
+
+- **大型语言模型（LLM）**：GPT-4等模型的出现，使得AI在理解和生成自然语言方面取得了重大突破
+- **多模态AI**：能够同时处理文本、图像、音频等多种数据类型的AI模型
+- **边缘AI**：在边缘设备上运行的AI模型，降低了对云服务的依赖
+
+## 前端开发的趋势
+
+前端开发也在不断演进，以下是一些值得关注的趋势：
+
+1. **Web Components**：原生组件化方案，提高了代码的复用性
+2. **Jamstack架构**：静态网站生成和无头CMS的结合，提供了更好的性能和安全性
+3. **WebAssembly**：允许高性能代码在浏览器中运行，扩展了Web的能力
+
+## 个人思考
+
+在技术快速发展的今天，我认为保持学习的心态非常重要。我们应该：
+
+> 保持好奇心，拥抱新技术，但也要有自己的判断。
+
+```javascript
+// 学习是一个持续的过程
+function learnContinously() {
+  const knowledge = getCurrentKnowledge();
+  const newSkills = acquireNewSkills();
+  return knowledge + newSkills;
+}
+```
+
+## 结语
+
+感谢阅读我的第一期周刊！如果你有任何想法或建议，欢迎在评论区留言。
+
+期待与你在下一期再见！`;
+                    
+                    updatePreview();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

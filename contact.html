@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我 - 个人周刊</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#64748B',
+                        accent: '#10B981',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .contact-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
+            }
+            .form-input:focus {
+                border-color: #3B82F6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark min-h-screen">
+    <!-- 导航栏 -->
+    <header class="header fixed w-full top-0 z-50 bg-white/90 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- 品牌标识 -->
+                <a href="index.html" class="flex items-center gap-2">
+                    <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                    <span class="text-xl font-bold">个人周刊</span>
+                </a>
+                
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                    <a href="contact.html" class="nav-link active">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-btn" class="md:hidden text-2xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 py-4 border-t">
+                <nav class="flex flex-col space-y-4">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                    <a href="contact.html" class="nav-link active">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 pt-32 pb-16">
+        <!-- 联系页面标题 -->
+        <section class="mb-12 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">联系我</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                有任何问题、建议或合作意向？请随时与我联系，我会尽快回复您！
+            </p>
+        </section>
+        
+        <!-- 联系信息卡片 -->
+        <section class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 邮箱联系 -->
+                <div class="contact-card bg-white rounded-xl shadow-sm p-6 flex flex-col items-center text-center transition-all duration-300">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                        <i class="fa fa-envelope text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">电子邮箱</h3>
+                    <p class="text-gray-600 mb-4">
+                        发送邮件与我沟通
+                    </p>
+                    <a href="mailto:example@email.com" class="text-primary hover:text-primary/80 font-medium transition-colors">
+                        example@email.com
+                    </a>
+                </div>
+                
+                <!-- 社交媒体 -->
+                <div class="contact-card bg-white rounded-xl shadow-sm p-6 flex flex-col items-center text-center transition-all duration-300">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                        <i class="fa fa-weixin text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">社交媒体</h3>
+                    <p class="text-gray-600 mb-4">
+                        通过社交平台关注我
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-primary transition-colors">
+                            <i class="fa fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary transition-colors">
+                            <i class="fa fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-primary transition-colors">
+                            <i class="fa fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 地理位置 -->
+                <div class="contact-card bg-white rounded-xl shadow-sm p-6 flex flex-col items-center text-center transition-all duration-300">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                        <i class="fa fa-map-marker text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">地理位置</h3>
+                    <p class="text-gray-600 mb-4">
+                        我当前所在的城市
+                    </p>
+                    <span class="text-gray-700 font-medium">
+                        中国，北京
+                    </span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 联系表单 -->
+        <section class="mb-12">
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                <h2 class="text-2xl font-bold mb-6">发送消息</h2>
+                <form id="contact-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 姓名 -->
+                        <div>
+                            <label for="name" class="block text-gray-700 font-medium mb-2">
+                                姓名 <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="name" name="name" required
+                                class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all">
+                        </div>
+                        
+                        <!-- 邮箱 -->
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-2">
+                                邮箱 <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" id="email" name="email" required
+                                class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all">
+                        </div>
+                    </div>
+                    
+                    <!-- 主题 -->
+                    <div>
+                        <label for="subject" class="block text-gray-700 font-medium mb-2">
+                            主题 <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="subject" name="subject" required
+                            class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all">
+                    </div>
+                    
+                    <!-- 消息内容 -->
+                    <div>
+                        <label for="message" class="block text-gray-700 font-medium mb-2">
+                            消息内容 <span class="text-red-500">*</span>
+                        </label>
+                        <textarea id="message" name="message" rows="5" required
+                            class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none transition-all resize-none"></textarea>
+                    </div>
+                    
+                    <!-- 提交按钮 -->
+                    <div>
+                        <button type="submit" class="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-3 rounded-lg transition-all">
+                            发送消息
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+        <!-- 常见问题 -->
+        <section>
+            <div class="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                <h2 class="text-2xl font-bold mb-6">常见问题</h2>
+                <div class="space-y-6">
+                    <!-- FAQ 项目 1 -->
+                    <div class="faq-item border-b border-gray-200 pb-4">
+                        <button class="faq-question w-full flex justify-between items-center text-left font-medium text-lg focus:outline-none">
+                            <span>如何订阅你的周刊？</span>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer hidden mt-2 text-gray-600">
+                            <p>你可以在网站首页或任何页面的底部找到订阅表单，输入你的邮箱地址即可订阅我的周刊。我会每周向订阅者发送最新的内容和技术动态。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 项目 2 -->
+                    <div class="faq-item border-b border-gray-200 pb-4">
+                        <button class="faq-question w-full flex justify-between items-center text-left font-medium text-lg focus:outline-none">
+                            <span>我可以投稿或合作吗？</span>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer hidden mt-2 text-gray-600">
+                            <p>当然可以！如果你有优质的技术内容想要分享，或者有合作意向，欢迎通过联系表单或邮箱与我取得联系，我们可以进一步讨论具体的合作方式。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 项目 3 -->
+                    <div class="faq-item border-b border-gray-200 pb-4">
+                        <button class="faq-question w-full flex justify-between items-center text-left font-medium text-lg focus:outline-none">
+                            <span>你的回复速度有多快？</span>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer hidden mt-2 text-gray-600">
+                            <p>我通常会在24-48小时内回复所有的邮件和消息。如果你的问题比较紧急，可以在邮件主题中注明"紧急"，我会优先处理。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 项目 4 -->
+                    <div class="faq-item">
+                        <button class="faq-question w-full flex justify-between items-center text-left font-medium text-lg focus:outline-none">
+                            <span>如何获取你分享的资源？</span>
+                            <i class="fa fa-chevron-down text-gray-400 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer hidden mt-2 text-gray-600">
+                            <p>我在文章中分享的大部分资源都可以通过文章底部的链接直接获取。对于一些需要特殊权限的资源，你可以通过联系我获取访问权限。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 订阅区域 -->
+    <section class="bg-gray-50 py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-2xl font-bold mb-4">订阅我的周刊</h2>
+                <p class="text-gray-600 mb-6">
+                    获取最新的技术动态和学习资源，每周发送到您的邮箱
+                </p>
+                <form id="subscribe-form" class="flex flex-col sm:flex-row gap-3">
+                    <input type="email" placeholder="请输入您的邮箱" class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                    <button type="submit" class="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-3 rounded-lg transition-all whitespace-nowrap">
+                        立即订阅
+                    </button>
+                </form>
+                <p class="text-xs text-gray-500 mt-4">
+                    我们尊重您的隐私，不会向第三方分享您的信息
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <a href="index.html" class="flex items-center gap-2 mb-4">
+                        <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                        <span class="text-xl font-bold">个人周刊</span>
+                    </a>
+                    <p class="text-gray-400 mb-4">
+                        记录技术思考，分享学习历程
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="categories.html" class="text-gray-400 hover:text-white transition-colors">分类</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">关于</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">联系我</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">分类</h3>
+                    <ul class="space-y-2">
+                        <li><a href="categories.html?category=技术趋势" class="text-gray-400 hover:text-white transition-colors">技术趋势</a></li>
+                        <li><a href="categories.html?category=学习方法" class="text-gray-400 hover:text-white transition-colors">学习方法</a></li>
+                        <li><a href="categories.html?category=前端开发" class="text-gray-400 hover:text-white transition-colors">前端开发</a></li>
+                        <li><a href="categories.html?category=性能优化" class="text-gray-400 hover:text-white transition-colors">性能优化</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">联系我</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-envelope"></i>
+                            <a href="mailto:example@email.com" class="hover:text-white transition-colors">example@email.com</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-map-marker"></i>
+                            <span>中国，北京</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>&copy; 2023 个人周刊. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module">
+        import { initCommon, setupFormSubmission } from './js/utils.js';
+        
+        // 初始化公共功能
+        initCommon();
+        setupFormSubmission('contact-form', '消息发送成功！我会尽快回复您。');
+        setupFormSubmission('subscribe-form', '订阅成功！感谢您的关注。');
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // FAQ 折叠功能
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const icon = question.querySelector('i');
+                    
+                    // 切换显示/隐藏状态
+                    answer.classList.toggle('hidden');
+                    icon.classList.toggle('transform');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章详情 - 个人周刊</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#64748B',
+                        accent: '#10B981',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .article-content h1 {
+                @apply text-3xl font-bold mb-6 text-dark;
+            }
+            .article-content h2 {
+                @apply text-2xl font-bold mb-4 text-dark mt-8;
+            }
+            .article-content h3 {
+                @apply text-xl font-bold mb-3 text-dark mt-6;
+            }
+            .article-content p {
+                @apply text-gray-700 mb-4 leading-relaxed;
+            }
+            .article-content a {
+                @apply text-primary hover:text-primary/80 underline;
+            }
+            .article-content ul {
+                @apply list-disc pl-6 mb-6 space-y-2 text-gray-700;
+            }
+            .article-content ol {
+                @apply list-decimal pl-6 mb-6 space-y-2 text-gray-700;
+            }
+            .article-content blockquote {
+                @apply border-l-4 border-primary pl-4 py-2 italic text-gray-600 mb-6;
+            }
+            .article-content pre {
+                @apply bg-gray-100 p-4 rounded-lg overflow-x-auto mb-6 text-sm font-mono text-gray-800;
+            }
+            .article-content code {
+                @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono text-gray-800;
+            }
+            .article-content pre code {
+                @apply bg-transparent p-0;
+            }
+            .article-content img {
+                @apply max-w-full rounded-lg shadow-md my-6;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark min-h-screen">
+    <!-- 导航栏 -->
+    <header class="header fixed w-full top-0 z-50 bg-white/90 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- 品牌标识 -->
+                <a href="index.html" class="flex items-center gap-2">
+                    <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                    <span class="text-xl font-bold">个人周刊</span>
+                </a>
+                
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                    <a href="contact.html" class="nav-link">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-btn" class="md:hidden text-2xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 py-4 border-t">
+                <nav class="flex flex-col space-y-4">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="categories.html" class="nav-link">分类</a>
+                    <a href="about.html" class="nav-link">关于</a>
+                    <a href="contact.html" class="nav-link">联系我</a>
+                    <a href="editor.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                        <span class="fa fa-pencil"></span>
+                        <span>写文章</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 文章内容区域 -->
+    <main class="container mx-auto px-4 pt-32 pb-16">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- 主要内容 -->
+            <article class="lg:col-span-2 bg-white rounded-xl shadow-sm p-6 md:p-8">
+                <!-- 文章头部 -->
+                <div id="article-header" class="mb-8">
+                    <!-- 标题和元信息将由JavaScript动态生成 -->
+                </div>
+                
+                <!-- 文章特色图片 -->
+                <div class="mb-8">
+                    <img id="article-image" src="" alt="文章特色图片" class="w-full h-auto rounded-xl shadow-md">
+                </div>
+                
+                <!-- 文章内容 -->
+                <div id="article-content" class="article-content">
+                    <!-- 文章内容将由JavaScript动态生成 -->
+                </div>
+                
+                <!-- 文章标签 -->
+                <div id="article-tags" class="mt-8 pt-6 border-t border-gray-200 flex flex-wrap gap-2">
+                    <!-- 标签将由JavaScript动态生成 -->
+                </div>
+                
+                <!-- 分享按钮 -->
+                <div class="mt-8 flex justify-between items-center">
+                    <div class="text-sm text-gray-500">
+                        <span class="fa fa-calendar-o mr-1"></span>
+                        <span id="article-date"></span>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button class="share-btn text-gray-500 hover:text-primary transition-colors">
+                            <span class="fa fa-facebook"></span>
+                        </button>
+                        <button class="share-btn text-gray-500 hover:text-primary transition-colors">
+                            <span class="fa fa-twitter"></span>
+                        </button>
+                        <button class="share-btn text-gray-500 hover:text-primary transition-colors">
+                            <span class="fa fa-linkedin"></span>
+                        </button>
+                        <button class="share-btn text-gray-500 hover:text-primary transition-colors">
+                            <span class="fa fa-link"></span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 作者信息 -->
+                <div class="mt-12 pt-8 border-t border-gray-200 flex items-center gap-4">
+                    <img src="https://picsum.photos/80/80?random=10" alt="作者头像" class="w-16 h-16 rounded-full object-cover">
+                    <div>
+                        <h3 class="font-bold">作者名称</h3>
+                        <p class="text-gray-600 text-sm">技术博主，热爱分享与学习</p>
+                    </div>
+                </div>
+                
+                <!-- 评论区 -->
+                <div class="mt-12 pt-8 border-t border-gray-200">
+                    <h3 class="text-xl font-bold mb-6">评论 (0)</h3>
+                    <form id="comment-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="comment-name" class="block text-gray-700 font-medium mb-2">姓名</label>
+                                <input type="text" id="comment-name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                            </div>
+                            <div>
+                                <label for="comment-email" class="block text-gray-700 font-medium mb-2">邮箱</label>
+                                <input type="email" id="comment-email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="comment-message" class="block text-gray-700 font-medium mb-2">评论内容</label>
+                            <textarea id="comment-message" name="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"></textarea>
+                        </div>
+                        <button type="submit" class="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-3 rounded-lg transition-all">
+                            提交评论
+                        </button>
+                    </form>
+                </div>
+            </article>
+            
+            <!-- 侧边栏 -->
+            <aside class="lg:col-span-1 space-y-8">
+                <!-- 搜索框 -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-bold mb-4">搜索文章</h3>
+                    <form id="search-form" class="relative">
+                        <input type="text" placeholder="搜索文章..." class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                        <button type="submit" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- 分类 -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-bold mb-4">文章分类</h3>
+                    <ul class="space-y-2">
+                        <li><a href="categories.html?category=技术趋势" class="flex justify-between items-center text-gray-700 hover:text-primary transition-colors">技术趋势 <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">1</span></a></li>
+                        <li><a href="categories.html?category=学习方法" class="flex justify-between items-center text-gray-700 hover:text-primary transition-colors">学习方法 <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">1</span></a></li>
+                        <li><a href="categories.html?category=前端开发" class="flex justify-between items-center text-gray-700 hover:text-primary transition-colors">前端开发 <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">2</span></a></li>
+                        <li><a href="categories.html?category=性能优化" class="flex justify-between items-center text-gray-700 hover:text-primary transition-colors">性能优化 <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">1</span></a></li>
+                    </ul>
+                </div>
+                
+                <!-- 热门文章 -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-bold mb-4">热门文章</h3>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3">
+                            <a href="article.html?id=1" class="flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg">
+                                <img src="https://picsum.photos/100/100?random=1" alt="文章缩略图" class="w-full h-full object-cover">
+                            </a>
+                            <div>
+                                <a href="article.html?id=1" class="text-sm font-medium hover:text-primary transition-colors line-clamp-2">我的第一周周刊：技术趋势观察</a>
+                                <p class="text-xs text-gray-500 mt-1">2023-10-01</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-3">
+                            <a href="article.html?id=2" class="flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg">
+                                <img src="https://picsum.photos/100/100?random=2" alt="文章缩略图" class="w-full h-full object-cover">
+                            </a>
+                            <div>
+                                <a href="article.html?id=2" class="text-sm font-medium hover:text-primary transition-colors line-clamp-2">如何高效学习新技术</a>
+                                <p class="text-xs text-gray-500 mt-1">2023-09-24</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-3">
+                            <a href="article.html?id=3" class="flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg">
+                                <img src="https://picsum.photos/100/100?random=3" alt="文章缩略图" class="w-full h-full object-cover">
+                            </a>
+                            <div>
+                                <a href="article.html?id=3" class="text-sm font-medium hover:text-primary transition-colors line-clamp-2">Web开发中的性能优化技巧</a>
+                                <p class="text-xs text-gray-500 mt-1">2023-09-17</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 标签云 -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="text-lg font-bold mb-4">标签云</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="categories.html?tag=技术趋势" class="text-xs bg-gray-100 hover:bg-primary hover:text-white text-gray-700 px-3 py-1.5 rounded-full transition-colors">技术趋势</a>
+                        <a href="categories.html?tag=AI" class="text-xs bg-gray-100 hover:bg-primary hover:text-white text-gray-700 px-3 py-1.5 rounded-full transition-colors">AI</a>
+                        <a href="categories.html?tag=前端开发" class="text-xs bg-gray-100 hover:bg-primary hover:text-white text-gray-700 px-3 py-1.5 rounded-full transition-colors">前端开发</a>
+                        <a href="categories.html?tag=学习方法" class="text-xs bg-gray-100 hover:bg-primary hover:text-white text-gray-700 px-3 py-1.5 rounded-full transition-colors">学习方法</a>
+                        <a href="categories.html?tag=自我提升" class="text-xs bg-gray-100 hover:bg-primary hover:text-white text-gray-700 px-3 py-1.5 rounded-full transition-colors">自我提升</a>
+                        <a href="categories.html?tag=性能优化" class="text-xs bg-gray-100 hover:bg-primary hover:text-white text-gray-700 px-3 py-1.5 rounded-full transition-colors">性能优化</a>
+                        <a href="categories.html?tag=Web开发" class="text-xs bg-gray-100 hover:bg-primary hover:text-white text-gray-700 px-3 py-1.5 rounded-full transition-colors">Web开发</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- 相关文章 -->
+    <section class="bg-gray-50 py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold mb-8 text-center">相关文章</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 相关文章卡片将由JavaScript动态生成 -->
+                <div class="article-card bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://picsum.photos/600/400?random=2" alt="如何高效学习新技术" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors">
+                            <a href="article.html?id=2">如何高效学习新技术</a>
+                        </h3>
+                        <p class="text-gray-600 mb-4 line-clamp-2">分享我多年来总结的学习新技术的方法和策略，帮助你更高效地掌握新技能。</p>
+                        <a href="article.html?id=2" class="inline-flex items-center gap-1 text-primary hover:text-primary/80 font-medium">
+                            阅读全文
+                            <i class="fa fa-arrow-right text-sm transition-transform duration-300 hover:translate-x-1"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="article-card bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://picsum.photos/600/400?random=3" alt="Web开发中的性能优化技巧" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors">
+                            <a href="article.html?id=3">Web开发中的性能优化技巧</a>
+                        </h3>
+                        <p class="text-gray-600 mb-4 line-clamp-2">分享一些在Web开发中常用的性能优化技巧，帮助你构建更快、更流畅的Web应用。</p>
+                        <a href="article.html?id=3" class="inline-flex items-center gap-1 text-primary hover:text-primary/80 font-medium">
+                            阅读全文
+                            <i class="fa fa-arrow-right text-sm transition-transform duration-300 hover:translate-x-1"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- 占位卡片，当相关文章不足3篇时显示 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 flex flex-col items-center justify-center text-center">
+                    <div class="text-4xl text-gray-300 mb-4">
+                        <i class="fa fa-book"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-400">更多文章即将发布</h3>
+                    <p class="text-gray-500 mb-4">订阅我的周刊，获取最新更新</p>
+                    <a href="index.html" class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-all">
+                        返回首页
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <a href="index.html" class="flex items-center gap-2 mb-4">
+                        <span class="fa fa-newspaper-o text-primary text-2xl"></span>
+                        <span class="text-xl font-bold">个人周刊</span>
+                    </a>
+                    <p class="text-gray-400 mb-4">
+                        记录技术思考，分享学习历程
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fa fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="categories.html" class="text-gray-400 hover:text-white transition-colors">分类</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">关于</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">联系我</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">分类</h3>
+                    <ul class="space-y-2">
+                        <li><a href="categories.html?category=技术趋势" class="text-gray-400 hover:text-white transition-colors">技术趋势</a></li>
+                        <li><a href="categories.html?category=学习方法" class="text-gray-400 hover:text-white transition-colors">学习方法</a></li>
+                        <li><a href="categories.html?category=前端开发" class="text-gray-400 hover:text-white transition-colors">前端开发</a></li>
+                        <li><a href="categories.html?category=性能优化" class="text-gray-400 hover:text-white transition-colors">性能优化</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">联系我</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-envelope"></i>
+                            <a href="mailto:example@email.com" class="hover:text-white transition-colors">example@email.com</a>
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fa fa-map-marker"></i>
+                            <span>中国，北京</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>&copy; 2023 个人周刊. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module">
+        // 导入必要的功能
+        import { initCommon, setupFormSubmission, getArticleById, getArticles } from './js/utils.js';
+        import { simpleMarkdownParser } from './js/markdown-editor.js';
+        
+        // 初始化公共功能
+        initCommon();
+        setupFormSubmission('comment-form', '评论提交成功！在实际应用中，这里会处理评论逻辑。');
+        
+        // 从URL获取文章ID
+        function getArticleIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id') || '1'; // 默认显示第一篇文章
+        }
+        
+        // 渲染文章内容
+        async function renderArticle() {
+            try {
+                const articleId = getArticleIdFromUrl();
+                const article = await getArticleById(articleId);
+                
+                if (article) {
+                    // 更新页面标题
+                    document.title = `${article.title} - 个人周刊`;
+                    
+                    // 渲染文章头部
+                    const articleHeader = document.getElementById('article-header');
+                    if (articleHeader) {
+                        articleHeader.innerHTML = `
+                            <h1 class="text-3xl md:text-4xl font-bold mb-4 text-dark">${article.title}</h1>
+                            <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                                <div class="flex items-center gap-1">
+                                    <img src="https://picsum.photos/30/30?random=10" alt="作者头像" class="w-6 h-6 rounded-full">
+                                    <span>${article.author}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="fa fa-calendar-o"></span>
+                                    <span>${article.date}</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <span class="fa fa-folder-o"></span>
+                                    <a href="categories.html?category=${article.category}" class="hover:text-primary transition-colors">${article.category}</a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    // 渲染文章图片
+                    const articleImage = document.getElementById('article-image');
+                    if (articleImage) {
+                        articleImage.src = article.image;
+                        articleImage.alt = article.title;
+                        articleImage.classList.add('transition-opacity', 'duration-500');
+                        articleImage.style.opacity = '0';
+                        articleImage.onload = () => {
+                            articleImage.style.opacity = '1';
+                        };
+                    }
+                    
+                    // 渲染文章内容
+                    const articleContent = document.getElementById('article-content');
+                    if (articleContent) {
+                        // 使用Markdown解析器将Markdown格式的内容转换为HTML
+                        const htmlContent = simpleMarkdownParser(article.content);
+                        articleContent.innerHTML = htmlContent;
+                        // 为代码块添加语法高亮样式
+                        articleContent.querySelectorAll('pre code').forEach(block => {
+                            block.classList.add('bg-gray-50', 'p-4', 'rounded-lg', 'overflow-x-auto', 'text-sm');
+                        });
+                    }
+                    
+                    // 渲染文章标签
+                    const articleTags = document.getElementById('article-tags');
+                    if (articleTags) {
+                        articleTags.innerHTML = article.tags.map(tag => `
+                            <a href="categories.html?tag=${encodeURIComponent(tag)}" class="text-xs bg-gray-100 hover:bg-primary hover:text-white text-gray-700 px-3 py-1 rounded-full transition-all duration-300">
+                                ${tag}
+                            </a>
+                        `).join('');
+                    }
+                    
+                    // 更新日期
+                    const articleDate = document.getElementById('article-date');
+                    if (articleDate) {
+                        articleDate.textContent = article.date;
+                    }
+                    
+                    // 渲染相关文章
+                    await renderRelatedArticles(article);
+                } else {
+                    // 如果找不到文章，重定向到404页面
+                    window.location.href = '404.html';
+                }
+            } catch (error) {
+                console.error('渲染文章失败:', error);
+                // 显示错误提示
+                const mainContent = document.querySelector('main');
+                if (mainContent) {
+                    mainContent.innerHTML = `
+                        <div class="text-center py-12">
+                            <i class="fa fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
+                            <h2 class="text-2xl font-bold mb-2">加载文章失败</h2>
+                            <p class="text-gray-600 mb-6">无法加载文章内容，请稍后再试。</p>
+                            <a href="index.html" class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-all">
+                                返回首页
+                            </a>
+                        </div>
+                    `;
+                }
+            }
+        }
+        
+        // 渲染相关文章
+        async function renderRelatedArticles(currentArticle) {
+            try {
+                const allArticles = await getArticles();
+                // 根据分类筛选相关文章，排除当前文章
+                const relatedArticles = allArticles.filter(article => 
+                    article.category === currentArticle.category && article.id !== currentArticle.id
+                ).slice(0, 2); // 最多显示2篇相关文章
+                
+                const relatedArticlesContainer = document.querySelector('.grid.grid-cols-1.md\:grid-cols-3');
+                if (relatedArticlesContainer) {
+                    // 清空现有内容
+                    relatedArticlesContainer.innerHTML = '';
+                    
+                    // 添加相关文章
+                    relatedArticles.forEach(article => {
+                        const articleCard = document.createElement('div');
+                        articleCard.className = 'article-card bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden';
+                        articleCard.innerHTML = `
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="${article.image}" alt="${article.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors">
+                                    <a href="article.html?id=${article.id}">${article.title}</a>
+                                </h3>
+                                <p class="text-gray-600 mb-4 line-clamp-2">${article.summary}</p>
+                                <a href="article.html?id=${article.id}" class="inline-flex items-center gap-1 text-primary hover:text-primary/80 font-medium">
+                                    阅读全文
+                                    <i class="fa fa-arrow-right text-sm transition-transform duration-300 hover:translate-x-1"></i>
+                                </a>
+                            </div>
+                        `;
+                        relatedArticlesContainer.appendChild(articleCard);
+                    });
+                    
+                    // 如果相关文章不足2篇，添加占位卡片
+                    const placeholderCount = Math.max(0, 3 - relatedArticles.length);
+                    for (let i = 0; i < placeholderCount; i++) {
+                        const placeholderCard = document.createElement('div');
+                        placeholderCard.className = 'bg-white rounded-xl shadow-sm p-6 flex flex-col items-center justify-center text-center';
+                        placeholderCard.innerHTML = `
+                            <div class="text-4xl text-gray-300 mb-4">
+                                <i class="fa fa-book"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-gray-400">更多文章即将发布</h3>
+                            <p class="text-gray-500 mb-4">订阅我的周刊，获取最新更新</p>
+                            <a href="index.html" class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg transition-all">
+                                返回首页
+                            </a>
+                        `;
+                        relatedArticlesContainer.appendChild(placeholderCard);
+                    }
+                }
+            } catch (error) {
+                console.error('渲染相关文章失败:', error);
+            }
+        }
+        
+        // 页面加载完成后渲染文章
+        document.addEventListener('DOMContentLoaded', () => {
+            renderArticle();
+            
+            // 搜索表单提交处理
+            const searchForm = document.getElementById('search-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const searchInput = searchForm.querySelector('input');
+                    if (searchInput && searchInput.value.trim()) {
+                        alert(`搜索: ${searchInput.value.trim()}\n在实际应用中，这里会处理搜索逻辑。`);
+                    }
+                });
+            }
+            
+            // 分享按钮点击处理
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const platform = btn.querySelector('i').classList[1].replace('fa-', '');
+                    alert(`分享到${platform}\n在实际应用中，这里会处理分享逻辑。`);
+                });
+            });
+            
+            // 添加图片懒加载
+            document.querySelectorAll('img').forEach(img => {
+                if (img.complete) {
+                    img.classList.add('opacity-100');
+                } else {
+                    img.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+                    img.addEventListener('load', () => {
+                        img.classList.replace('opacity-0', 'opacity-100');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
